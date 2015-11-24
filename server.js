@@ -10,7 +10,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/update', function(req, res) {
-    alert("hello');
+    alert("hello");
     pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
         // watch for any connect issues
         if (err) console.log(err);
