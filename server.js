@@ -1,4 +1,3 @@
-console.log("hello");
 var express = require('express');
 var bodyParser = require('body-parser');
 var pg = require('pg');
@@ -16,13 +15,13 @@ app.post('/update', function(req, res) {
         // watch for any connect issues
         if (err) console.log(err);
         conn.query(
-            'UPDATE salesforce.Contact SET Phone = $1, MobilePhone = $1 WHERE LOWER(FirstName) = LOWER($2) AND LOWER(LastName) = LOWER($3) AND LOWER(Email) = LOWER($4)',
-            [req.body.phone.trim(), req.body.firstName.trim(), req.body.lastName.trim(), req.body.email.trim()],
+            //Arguments to the SQL function are referenced in the function body using the syntax $n: $1 refers to the first argument
+            'UPDATE salesforce.Contact SET Email = $1 WHERE LOWER(FirstName) = LOWER($2) AND LOWER(LastName) = LOWER($3) AND LOWER(Email) = LOWER($4)',
+            [req.body.newEmail.trim(), req.body.firstName.trim(), req.body.lastName.trim(), req.body.currEmail.trim()],
             function(err, result) {
                 if (err != null || result.rowCount == 0) {
-                    alert("insert");
-                  conn.query('INSERT INTO salesforce.Contact (Phone, MobilePhone, FirstName, LastName, Email) VALUES ($1, $2, $3, $4, $5)',
-                  [req.body.phone.trim(), req.body.phone.trim(), req.body.firstName.trim(), req.body.lastName.trim(), req.body.email.trim()],
+                  conn.query('INSERT INTO salesforce.Contact (FirstName, LastName, Email) VALUES ($1, $2, $3)',
+                  [req.body.firstName.trim(), req.body.lastName.trim(), req.body.email.trim()],
                   function(err, result) {
                     done();
                     if (err) {
